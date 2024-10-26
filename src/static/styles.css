@@ -10,14 +10,15 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: #f4f4f4;
+    background-color: #f9f9f9; /* Light background */
 }
 
 header {
-    background-color: #fc6d26;
+    background-color: #6c757d; /* Softer gray */
     color: white;
     padding: 1rem;
     text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 main {
@@ -32,18 +33,20 @@ textarea {
     width: 100%;
     padding: 1rem;
     margin-bottom: 1rem;
-    resize: none;
+    resize: vertical; /* Allow vertical resizing */
     font-family: monospace;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     height: 60vh; /* Maximum size */
+    background-color: #fff; /* White textarea */
+    color: #333; /* Darker text for readability */
 }
 
 button {
-    padding: 0.75rem;
+    padding: 0.75rem 1.5rem;
     font-size: 1rem;
-    background-color: #28a745;
+    background-color: #17a2b8; /* Softer blue */
     color: white;
     border: none;
     border-radius: 4px;
@@ -53,11 +56,11 @@ button {
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #138496; /* Darker blue on hover */
 }
 
 button:disabled {
-    background-color: #6c757d;
+    background-color: #a1a1a1;
     cursor: not-allowed;
 }
 
@@ -79,7 +82,7 @@ button:disabled {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    border-left-color: #09f;
+    border-left-color: #17a2b8; /* Match button color */
     animation: spin 1s linear infinite;
     margin: auto;
     display: none; /* Hidden by default */

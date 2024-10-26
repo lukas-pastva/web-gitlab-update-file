@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, jsonify
 import requests
 from dotenv import load_dotenv
+from urllib.parse import quote
 
 # Load environment variables from .env file
 load_dotenv()
@@ -20,14 +21,21 @@ HEADERS = {
     'Content-Type': 'application/json'
 }
 
+def get_filename(file_path):
+    """Extracts the filename from the file path."""
+    return os.path.basename(file_path)
+
 @app.route('/')
 def index():
-    return render_template('index.html')
+    filename = get_filename(FILE_PATH)
+    return render_template('index.html', filename=filename)
 
 @app.route('/api/get_file', methods=['GET'])
 def get_file():
     try:
-        url = f"{GITLAB_API_URL}/projects/{PROJECT_ID}/repository/files/{requests.utils.quote(FILE_PATH, safe='')}/raw"
+        # Encode the file path for URL
+        encoded_file_path = quote(FILE_PATH, safe='')
+        url = f"{GITLAB_API_URL}/projects/{PROJECT_ID}/repository/files/{encoded_file_path}/raw"
         params = {'ref': BRANCH}
         response = requests.get(url, headers={'PRIVATE-TOKEN': PERSONAL_ACCESS_TOKEN}, params=params)
 
@@ -45,7 +53,8 @@ def save_file():
         new_content = data.get('content', '')
 
         # Get the latest commit ID
-        info_url = f"{GITLAB_API_URL}/projects/{PROJECT_ID}/repository/files/{requests.utils.quote(FILE_PATH, safe='')}"
+        encoded_file_path = quote(FILE_PATH, safe='')
+        info_url = f"{GITLAB_API_URL}/projects/{PROJECT_ID}/repository/files/{encoded_file_path}"
         info_params = {'ref': BRANCH}
         info_response = requests.get(info_url, headers=HEADERS, params=info_params)
 
@@ -64,7 +73,7 @@ def save_file():
         }
 
         # Update the file
-        update_url = f"{GITLAB_API_URL}/projects/{PROJECT_ID}/repository/files/{requests.utils.quote(FILE_PATH, safe='')}"
+        update_url = f"{GITLAB_API_URL}/projects/{PROJECT_ID}/repository/files/{encoded_file_path}"
         update_response = requests.put(update_url, headers=HEADERS, json=payload)
 
         if update_response.status_code in [200, 201]:
