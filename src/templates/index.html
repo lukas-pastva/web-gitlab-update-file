@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitLab File Editor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>GitLab File Editor</h1>
+    </header>
+    <main>
+        <div id="loading" class="spinner"></div>
+
+        <textarea id="fileContent" placeholder="Loading file..." disabled></textarea>
+        <button id="saveButton" disabled>Save</button>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
